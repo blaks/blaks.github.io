@@ -42,11 +42,17 @@
             font-size: 24px;
             font-weight: 700;
         }
+        #file-name {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: 400;
+        }
     </style>
 </head>
 <body>
     <div id="loading-container">
         <div id="loading-text">Chargement en cours...</div>
+        <div id="file-name">LUA STARTED!</div>
         <div class="loading-bar-container">
             <div class="loading-bar" id="resource-bar"></div>
         </div>
@@ -58,6 +64,7 @@
 
         function DownloadingFile(fileName) {
             filesDownloaded++;
+            document.getElementById('file-name').textContent = fileName;
             updateProgressBar();
         }
 
@@ -75,16 +82,22 @@
         }
 
         // Pour tester les fonctions manuellement
-        // window.onload = () => {
-        //     SetFilesNeeded(100);
-        //     const interval = setInterval(() => {
-        //         if (filesDownloaded >= totalFiles) {
-        //             clearInterval(interval);
-        //         } else {
-        //             DownloadingFile("test.txt");
-        //         }
-        //     }, 100);
-        // };
+        window.onload = () => {
+            SetFilesNeeded(100);
+
+            // Simulation de téléchargement
+            const fileNames = ["Mounting Addons", "Loading LUA", "Downloading Map", "Loading Textures"];
+            let currentFileIndex = 0;
+
+            const interval = setInterval(() => {
+                if (filesDownloaded >= totalFiles) {
+                    clearInterval(interval);
+                } else {
+                    DownloadingFile(fileNames[currentFileIndex % fileNames.length]);
+                    currentFileIndex++;
+                }
+            }, 1000);
+        };
     </script>
 </body>
 </html>
