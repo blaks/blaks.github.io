@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chargement...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -12,14 +13,18 @@
             align-items: center;
             background: url('image.png') no-repeat center center fixed;
             background-size: cover;
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             color: white;
         }
         #loading-container {
             text-align: center;
+            position: absolute;
+            top: 85%; /* Positionnement à 85% de la hauteur de l'écran */
+            width: 80%;
+            transform: translateY(-50%); /* Centrer le contenu verticalement */
         }
         .loading-bar-container {
-            width: 80%;
+            width: 100%;
             background-color: #333;
             border-radius: 25px;
             overflow: hidden;
@@ -35,6 +40,7 @@
         #loading-text {
             margin-top: 20px;
             font-size: 24px;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -47,46 +53,38 @@
     </div>
 
     <script>
-        let filesNeeded = 0;
+        let totalFiles = 0;
         let filesDownloaded = 0;
-
-        function simulateLoading() {
-            const bar = document.getElementById('resource-bar');
-            let width = 0;
-
-            const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                } else {
-                    width += 1; // Simule l'augmentation de la barre de progression
-                    bar.style.width = width + '%';
-                }
-            }, 100); // Ajuste la durée ici
-        }
 
         function DownloadingFile(fileName) {
             filesDownloaded++;
-            updateProgress();
+            updateProgressBar();
         }
 
         function SetFilesNeeded(needed) {
-            filesNeeded = needed;
-            filesDownloaded = 0;
-            updateProgress();
+            totalFiles = needed;
+            updateProgressBar();
         }
 
-        function updateProgress() {
+        function updateProgressBar() {
             const bar = document.getElementById('resource-bar');
-            const percentage = (filesNeeded > 0) ? (filesDownloaded / filesNeeded) * 100 : 0;
-            bar.style.width = percentage + '%';
-
-            const loadingText = document.getElementById('loading-text');
-            loadingText.textContent = `Chargement en cours... ${filesDownloaded} / ${filesNeeded} fichiers téléchargés`;
+            if (totalFiles > 0) {
+                const percentage = (filesDownloaded / totalFiles) * 100;
+                bar.style.width = percentage + '%';
+            }
         }
 
-        window.onload = function() {
-            simulateLoading();
-        }
+        // Pour tester les fonctions manuellement
+        // window.onload = () => {
+        //     SetFilesNeeded(100);
+        //     const interval = setInterval(() => {
+        //         if (filesDownloaded >= totalFiles) {
+        //             clearInterval(interval);
+        //         } else {
+        //             DownloadingFile("test.txt");
+        //         }
+        //     }, 100);
+        // };
     </script>
 </body>
 </html>
