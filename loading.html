@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chargement...</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('image.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        #loading-container {
+            text-align: center;
+        }
+        .loading-bar-container {
+            width: 80%;
+            background-color: #333;
+            border-radius: 25px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        .loading-bar {
+            height: 30px;
+            width: 0;
+            background-color: #005baa;
+            border-radius: 25px;
+            transition: width 0.3s;
+        }
+        #loading-text {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-container">
+        <div id="loading-text">Chargement en cours...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="resource-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        function simulateLoading() {
+            const bar = document.getElementById('resource-bar');
+            let width = 0;
+
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width += 1; // Simule l'augmentation de la barre de progression
+                    bar.style.width = width + '%';
+                }
+            }, 100); // Ajuste la durée ici
+        }
+
+        window.onload = simulateLoading;
+    </script>
+</body>
+</html>
