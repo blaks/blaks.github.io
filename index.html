@@ -1,103 +1,67 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chargement...</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        html, body {
             background: url('image.png') no-repeat center center fixed;
             background-size: cover;
-            font-family: 'Montserrat', sans-serif;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             color: white;
+            font-family: Arial, sans-serif;
         }
-        #loading-container {
-            text-align: center;
-            position: absolute;
-            top: 85%; /* Positionnement à 85% de la hauteur de l'écran */
+        #progress-container {
             width: 80%;
-            transform: translateY(-50%); /* Centrer le contenu verticalement */
-        }
-        .loading-bar-container {
-            width: 100%;
-            background-color: #333;
-            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
             overflow: hidden;
-            margin: 20px auto;
         }
-        .loading-bar {
+        #progress-bar {
             height: 30px;
             width: 0;
-            background-color: #005baa;
-            border-radius: 25px;
+            background: #005baa;
             transition: width 0.3s;
         }
-        #loading-text {
+        #status {
             margin-top: 20px;
-            font-size: 24px;
-            font-weight: 700;
-        }
-        #file-name {
-            font-size: 18px;
-            margin-top: 10px;
-            font-weight: 400;
         }
     </style>
+    <title>Loading Screen</title>
 </head>
 <body>
-    <div id="loading-container">
-        <div id="loading-text">Chargement en cours...</div>
-        <div id="file-name">LUA STARTED!</div>
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="resource-bar"></div>
-        </div>
+    <div id="progress-container">
+        <div id="progress-bar"></div>
     </div>
+    <div id="status">Preparing to download...</div>
 
     <script>
-        let totalFiles = 0;
-        let filesDownloaded = 0;
+        function SetFilesTotal(total) {
+            window.totalFiles = total;
+        }
 
         function DownloadingFile(fileName) {
-            filesDownloaded++;
-            document.getElementById('file-name').textContent = fileName;
-            updateProgressBar();
+            document.getElementById('status').innerText = `Downloading: ${fileName}`;
         }
 
         function SetFilesNeeded(needed) {
-            totalFiles = needed;
-            updateProgressBar();
-        }
-
-        function updateProgressBar() {
-            const bar = document.getElementById('resource-bar');
-            if (totalFiles > 0) {
-                const percentage = (filesDownloaded / totalFiles) * 100;
-                bar.style.width = percentage + '%';
+            const progressBar = document.getElementById('progress-bar');
+            const progress = ((window.totalFiles - needed) / window.totalFiles) * 100;
+            progressBar.style.width = progress + '%';
+            if (needed === 0) {
+                document.getElementById('status').innerText = 'Download complete!';
             }
         }
 
-        // Pour tester les fonctions manuellement
-        window.onload = () => {
-            SetFilesNeeded(100);
-
-            // Simulation de téléchargement
-            const fileNames = ["Mounting Addons", "Loading LUA", "Downloading Map", "Loading Textures"];
-            let currentFileIndex = 0;
-
-            const interval = setInterval(() => {
-                if (filesDownloaded >= totalFiles) {
-                    clearInterval(interval);
-                } else {
-                    DownloadingFile(fileNames[currentFileIndex % fileNames.length]);
-                    currentFileIndex++;
-                }
-            }, 1000);
-        };
+        function SetStatusChanged(status) {
+            document.getElementById('status').innerText = status;
+        }
     </script>
 </body>
 </html>
