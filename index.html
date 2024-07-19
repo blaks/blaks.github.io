@@ -47,6 +47,9 @@
     </div>
 
     <script>
+        let filesNeeded = 0;
+        let filesDownloaded = 0;
+
         function simulateLoading() {
             const bar = document.getElementById('resource-bar');
             let width = 0;
@@ -61,7 +64,29 @@
             }, 100); // Ajuste la durée ici
         }
 
-        window.onload = simulateLoading;
+        function DownloadingFile(fileName) {
+            filesDownloaded++;
+            updateProgress();
+        }
+
+        function SetFilesNeeded(needed) {
+            filesNeeded = needed;
+            filesDownloaded = 0;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const bar = document.getElementById('resource-bar');
+            const percentage = (filesNeeded > 0) ? (filesDownloaded / filesNeeded) * 100 : 0;
+            bar.style.width = percentage + '%';
+
+            const loadingText = document.getElementById('loading-text');
+            loadingText.textContent = `Chargement en cours... ${filesDownloaded} / ${filesNeeded} fichiers téléchargés`;
+        }
+
+        window.onload = function() {
+            simulateLoading();
+        }
     </script>
 </body>
 </html>
