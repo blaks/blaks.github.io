@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,31 +18,33 @@
             align-items: center;
             color: white;
             font-family: 'Montserrat', sans-serif;
-            padding-bottom: 55px;
+            box-sizing: border-box;
+            overflow: hidden;
         }
         #status {
             font-size: 1.2em;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         #progress-container {
-            width: 500%;
-            max-width: 1200px;
-            background: rgb(49, 49, 49);
+            width: 100%;
+            background: #404040;
             border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 50px;
+            margin-bottom: 100px;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         #progress-bar {
-            height: 20px;
+            height: 15px;
             width: 0;
             background: #005baa;
             transition: width 0.3s;
         }
     </style>
-    <title>Loading Screen</title>
+    <title>KNK | Loading Screen</title>
 </head>
 <body>
-    <div id="status">Preparing to download...</div>
+    <div id="status">Préparation du téléchargement...</div>
     <div id="progress-container">
         <div id="progress-bar"></div>
     </div>
@@ -53,7 +55,7 @@
         }
 
         function DownloadingFile(fileName) {
-            document.getElementById('status').innerText = `Downloading: ${fileName}`;
+            document.getElementById('status').innerText = `Télécharge: ${fileName}`;
         }
 
         function SetFilesNeeded(needed) {
@@ -61,7 +63,7 @@
             const progress = ((window.totalFiles - needed) / window.totalFiles) * 100;
             progressBar.style.width = progress + '%';
             if (needed === 0) {
-                document.getElementById('status').innerText = 'Download complete!';
+                document.getElementById('status').innerText = 'Téléchargement complet!';
             }
         }
 
